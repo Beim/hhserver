@@ -1,9 +1,13 @@
 const Koa = require('koa')
 const path = require('path')
 const fs = require('fs')
+if (!fs.existsSync(path.join(__dirname, '../db')))
+    fs.mkdirSync(path.join(__dirname, '../db'))
 const Router = require('koa-router')
 const RoomService = require('../entity/RoomService')
 const CONFIG = require('../conf/global_conf')
+
+
 
 const app = new Koa()
 const forums = new Router()
