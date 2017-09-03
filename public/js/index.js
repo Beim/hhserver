@@ -274,5 +274,11 @@ const render_all = () => {
 const ready_func = async () => {
     await init_state()
     render_all()
+
+    setInterval(async () => {
+        let res = await get('/api/get')
+        state['table_option'] = res !== null ? res : {}
+        render_all()
+    }, 2000);
 }
 $(() => ready_func())
