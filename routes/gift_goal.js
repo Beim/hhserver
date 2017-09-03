@@ -30,7 +30,7 @@ router.get('/set/:gift_name/goal', async (ctx, next) => {
 router.get('/del/:gift_name', async (ctx, next) => {
     let gift_name = ctx.params.gift_name
     gifts.del_gift(gift_name)
-    ctx.body = ResMsg(0, 'success')
+    ctx.body = ResMsg(1, 'success')
     await next()
 })
 

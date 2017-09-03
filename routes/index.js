@@ -35,4 +35,10 @@ router.get('/duration', async (ctx, next) => {
     await next()
 })
 
+// 获取room_service 的运行状态
+router.get('/get/state', async (ctx, next) => {
+    ctx.body = ResMsg(1, 'success', ctx.room_service.is_connected())
+    await next()
+})
+
 module.exports = router

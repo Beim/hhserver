@@ -2,18 +2,139 @@
     <head>
         <!-- 新 Bootstrap 核心 CSS 文件 -->
         <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <!-- 可选的Bootstrap主题文件（一般不使用） -->
-        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+         <!-- 可选的Bootstrap主题文件（一般不使用） 
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script> -->
         <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
         <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
         <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
         <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <link href="./css/index.css" rel="stylesheet">
     </head>
     <body>
-        <div>
-            <h1>hello huahua</h1>
-            <button type="button" class="btn btn-primary">原始按钮</button>
+        <div class="out-wrapper">
+            <div class="div-container tools">
+                <button data-toggle="modal" data-target="#new-gift-model" type="button" class="btn btn-success">新增</button>
+                <button onclick="start_action_handler()" id="start-action" type="button" class="btn btn-success">运行</button>
+                <!-- <button type="button" class="btn btn-warning">停止</button> -->
+            </div>
+            <div class="div-container">
+                <div class="table-responsive">  
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>礼物</th>
+                                <th>目标进度</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gift-tbody">
+                            <!-- <tr>
+                                <td>辣条</td>
+                                <td>0/1000</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-xs">修改</button>
+                                    <button type="button" class="btn btn-primary btn-xs">清空</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>自动铅笔</td>
+                                <td>200/1000</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-xs">修改</button>
+                                    <button type="button" class="btn btn-primary btn-xs">清空</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>神之记事本</td>
+                                <td>5/200</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-xs">修改</button>
+                                    <button type="button" class="btn btn-primary btn-xs">清空</button>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
         </div>
+
+        <!-- 新增礼物的模态框  -->
+        <div class="modal fade" id="new-gift-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header flex-center">
+                        <h4 class="modal-title" id="myModalLabel">新增礼物目标</h4>
+                    </div>
+                    <div class="modal-body flex-center new-gift-model-body">
+                        <!-- 新增礼物的下拉菜单  -->
+                        <div class="dropdown">
+                            <button type="button" class="btn dropdown-toggle" id="new-gift-dropdown-menu-btn" data-toggle="dropdown">
+                                <!-- 神之记事本  -->
+                                <span class="caret"></span>   
+                            </button>
+                            <ul id="new-gift-dropdown-menu-ul" class="dropdown-menu" role="menu" aria-labelledby="new-gift-dropdown-menu-btn">
+                                <!-- <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="#">辣条</a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="#">喵娘</a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="#">小电视</a>
+                                </li> -->
+                            </ul>
+                        </div>
+                        <input onchange="new_gift_goal_input_onchange_handler(this)" type="text" id="new-gift-goal-input"  placeholder="请输入目标数量">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button onclick="submit_new_gift_handler()" type="button" class="btn btn-primary">提交更改</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!-- 修改礼物目标或删除的模态框  -->
+        <div class="modal fade" id="modify-gift-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header flex-center">
+                        <h4 class="modal-title" id="myModalLabel">修改礼物目标</h4>
+                    </div>
+                    <div class="modal-body flex-center">
+                        <input onchange="modify_gift_goal_input_onchange_handler(this)" type="text" id="modify-gift-goal-input"  placeholder="请输入目标数量">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button onclick="delete_modify_gift_handler()" type="button" class="btn btn-danger">删除</button>
+                        <button onclick="submit_modify_gift_handler()" type="button" class="btn btn-primary">提交更改</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!-- 运行时选择房间号的模态框  -->
+        <div class="modal fade" id="start-action-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header flex-center">
+                        <h4 class="modal-title" id="myModalLabel">选择房间</h4>
+                    </div>
+                    <div class="modal-body flex-center">
+                        <input onchange="start_action_input_onchange_handler(this)" type="text" id="start-action-input"  placeholder="请输入房间号">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button onclick="submit_start_action_handler()" type="button" class="btn btn-primary">运行</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <script src="./js/util.js"></script>
+        <script src="./js/index.js"></script>
     </body>
 </html>
 
