@@ -25,29 +25,15 @@
                             <tr>
                                 <th>礼物</th>
                                 <th>目标进度</th>
+                                <th>达成奖励</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody id="gift-tbody">
-                            <!-- <tr>
+                             <!-- <tr>
                                 <td>辣条</td>
                                 <td>0/1000</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-xs">修改</button>
-                                    <button type="button" class="btn btn-primary btn-xs">清空</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>自动铅笔</td>
-                                <td>200/1000</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-xs">修改</button>
-                                    <button type="button" class="btn btn-primary btn-xs">清空</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>神之记事本</td>
-                                <td>5/200</td>
+                                <td>心跳</td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-xs">修改</button>
                                     <button type="button" class="btn btn-primary btn-xs">清空</button>
@@ -75,25 +61,20 @@
                                 <span class="caret"></span>   
                             </button>
                             <ul id="new-gift-dropdown-menu-ul" class="dropdown-menu" role="menu" aria-labelledby="new-gift-dropdown-menu-btn">
-                                <!-- <li role="presentation">
+                                 <!-- <li role="presentation">
                                     <a role="menuitem" tabindex="-1" href="#">辣条</a>
-                                </li>
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1" href="#">喵娘</a>
-                                </li>
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1" href="#">小电视</a>
                                 </li> -->
                             </ul>
                         </div>
                         <input onchange="new_gift_goal_input_onchange_handler(this)" type="text" id="new-gift-goal-input"  placeholder="请输入目标数量">
+                        <input onchange="new_gift_reward_input_onchange_handler(this)" type="text" id="new-gift-reward-input"  placeholder="请输入达成奖励">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button onclick="submit_new_gift_handler()" type="button" class="btn btn-primary">提交更改</button>
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
+                </div>
+            </div>
         </div>
 
         <!-- 修改礼物目标或删除的模态框  -->
@@ -101,10 +82,11 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header flex-center">
-                        <h4 class="modal-title" id="myModalLabel">修改礼物目标</h4>
+                        <h4 class="modal-title" id="myModalLabel">修改礼物目标与奖励</h4>
                     </div>
-                    <div class="modal-body flex-center">
+                    <div class="modal-body flex-center new-gift-model-body">
                         <input onchange="modify_gift_goal_input_onchange_handler(this)" type="text" id="modify-gift-goal-input"  placeholder="请输入目标数量">
+                        <input onchange="modify_gift_reward_input_onchange_handler(this)" type="text" id="modify-gift-reward-input"  placeholder="请输入达成奖励">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

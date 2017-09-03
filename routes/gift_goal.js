@@ -16,11 +16,11 @@ router.get('/get/:gift_name/goal', async (ctx, next) => {
     await next()
 })
 
-// /api/set/[自动铅笔]/goal?num=[1000]
+// /api/set/[自动铅笔]/goal?num=[1000]&&reward=心跳
 router.get('/set/:gift_name/goal', async (ctx, next) => {
     let gift_name = ctx.params.gift_name
-    let num = ctx.query.num
-    let ret = gifts.set_gift_goal(gift_name, num)
+    let { num, reward } = ctx.query
+    let ret = gifts.set_gift(gift_name, num, reward)
     if (ret) ctx.body = ResMsg(1, 'success')
     else ctx.body = ResMsg(0, '礼物不存在')
     await next()

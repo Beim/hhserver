@@ -9,6 +9,12 @@ const GIFT_DB = path.join(__dirname, '../db', CONFIG['GIFT_DB'])
     '辣条': [0, 1000],
     '自动铅笔': [0, 200]
 }
+
+0903 改为以下
+{
+    '辣条': [0, 1000, '心跳'],
+    '自动铅笔': [0, 200, '玩水']
+}
 */
 class Gifts {
 
@@ -57,6 +63,12 @@ class Gifts {
         return this.gift_db[gift_name][1]
     }
 
+    // 获取达成目标的奖励，礼物不存在返回false
+    get_gift_reward(gift_name, reward) {
+        if (!this.gift_db[gift_name]) return false
+        return this.gift_db[gift_name][2]
+    }
+
     // 设置礼物数量，不存在或数量为负数返回false
     set_gift_count(gift_name, num) {
         if (!this.gift_db[gift_name] || parseInt(num) < 0) return false
@@ -65,14 +77,28 @@ class Gifts {
         return true
     }
 
-    // 设置目标，不存在则新建，存在则设置；目标数为负数返回false
-    set_gift_goal(gift_name, goal_num) {
+    // // 设置目标，不存在则新建，存在则设置；目标数为负数返回false
+    // set_gift_goal(gift_name, goal_num) {
+    //     if (parseInt(goal_num) < 0) return false
+    //     if (!this.gift_db[gift_name]) {
+    //         this.gift_db[gift_name] = [0, parseInt(goal_num)]
+    //     }
+    //     else {
+    //         this.gift_db[gift_name][1] = parseInt(goal_num)
+    //     }
+    //     this._sync()
+    //     return true
+    // }
+
+    // 设置礼物数据，不存在则新建，存在则设置；目标数为负数返回false
+    set_gift(gift_name, goal_num, reward='') {
         if (parseInt(goal_num) < 0) return false
         if (!this.gift_db[gift_name]) {
-            this.gift_db[gift_name] = [0, parseInt(goal_num)]
+            this.gift_db[gift_name] = [0, parseInt(goal_num), reward]
         }
         else {
             this.gift_db[gift_name][1] = parseInt(goal_num)
+            this.gift_db[gift_name][2] = reward
         }
         this._sync()
         return true

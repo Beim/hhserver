@@ -7,19 +7,23 @@ const state = {
         start_action_btn: null,
         new_gift_dropdown_menu_btn: null,
         new_gift_dropdown_menu_ul: null,
-        new_gift_goal_input: null,
+        // new_gift_goal_input: null,
         modify_gift_modal_jqnode: null,
         modify_gift_goal_input: null,
         start_action_modal_jqnode: null,
         start_action_input: null,
+        // new_gift_reward_input: null,
+        modify_gift_reward_input: null,
     },
     new_gift: {
         gift_name: '',
         goal: 0,
+        reward: '',
     },
     modify_gift: {
         gift_name: '',
         goal: 0,
+        reward: '',
     },
     room_id: 221,
 }
@@ -29,11 +33,14 @@ const init_state = async () => {
     state.node.start_action_btn = document.getElementById('start-action')
     state.node.new_gift_dropdown_menu_btn = document.getElementById('new-gift-dropdown-menu-btn')
     state.node.new_gift_dropdown_menu_ul = document.getElementById('new-gift-dropdown-menu-ul')
-    state.node.new_gift_goal_input = document.getElementById('new-gift-goal-input')
+    // state.node.new_gift_goal_input = document.getElementById('new-gift-goal-input')
     state.node.modify_gift_modal_jqnode = $('#modify-gift-modal')
     state.node.modify_gift_goal_input = document.getElementById('modify-gift-goal-input')
     state.node.start_action_modal_jqnode = $('#start-action-modal')
     state.node.start_action_input = document.getElementById('start-action-input')
+    // state.node.new_gift_reward_input = document.getElementById('new-gift-reward-input')
+    state.node.modify_gift_reward_input = document.getElementById('modify-gift-reward-input')
+    
 
     promises = []
     promises.push(await get('/api/get'))
@@ -87,7 +94,7 @@ const choose_new_gift_handler = (text) => {
     render_all()
 }
 
-// new_gift_dropdown_menu 里面输入框的onchange
+// new_gift_dropdown_menu 里面礼物目标输入框的onchange
 const new_gift_goal_input_onchange_handler = (ctx) => {
     let value = ctx.value
     if (!isNaN(value) && parseInt(value) > 0) {
@@ -99,24 +106,30 @@ const new_gift_goal_input_onchange_handler = (ctx) => {
     }
 }
 
+// new_gift_dropdown_menu 里面达成奖励输入框的onchange
+const new_gift_reward_input_onchange_handler = (ctx) => {
+    state.new_gift.reward = ctx.value
+}
+
 // new_gift_dropdown_menu 里面提交按钮的点击事件
 const submit_new_gift_handler = async () => {
-    let { gift_name, goal } = state.new_gift
+    let { gift_name, goal, reward } = state.new_gift
     if (goal <= 0 || gift_name === '') return
-    await get(`/api/set/${gift_name}/goal?num=${goal}`)
+    await get(`/api/set/${gift_name}/goal?num=${goal}&&reward=${reward}`)
     refresh()
 }
 
 // 某个礼物栏的修改按钮点击事件
 const modify_gift_handler = async (gift_name) => {
-    let [count, goal] = state.table_option[gift_name]
+    let [count, goal, reward] = state.table_option[gift_name]
     state.modify_gift.gift_name = gift_name
     state.modify_gift.goal = goal
+    state.modify_gift.reward = reward
     render_all()
     state.node.modify_gift_modal_jqnode.modal()
 }
 
-// modify_gift_modal 里面的输入框onchange
+// modify_gift_modal 里面的目标输入框onchange
 const modify_gift_goal_input_onchange_handler = (ctx) => {
     let value = ctx.value
     if (!isNaN(value) && parseInt(value) > 0) {
@@ -125,6 +138,12 @@ const modify_gift_goal_input_onchange_handler = (ctx) => {
     else {
         render_all()
     }
+}
+
+// modify_gift_modal 里面的达成奖励输入框onchange
+const modify_gift_reward_input_onchange_handler = (ctx) => {
+    state.modify_gift.reward = ctx.value
+    render_all()
 }
 
 // modify_gift_modal 里面的删除按钮点击事件
@@ -136,9 +155,9 @@ const delete_modify_gift_handler = async () => {
 
 // modify_gift_modal 里面的提交按钮的点击事件
 const submit_modify_gift_handler = async () => {
-    let { gift_name, goal } = state.modify_gift
+    let { gift_name, goal, reward } = state.modify_gift
     if (goal <= 0 || gift_name === '') return
-    await get(`/api/set/${gift_name}/goal?num=${goal}`)
+    await get(`/api/set/${gift_name}/goal?num=${goal}&&reward=${reward}`)
     refresh()
 }
 
@@ -166,8 +185,9 @@ const render_start_action_modal = (start_action_input, room_id) => {
 }
 
 // 渲染修改礼物的模态框
-const render_modify_gift_modal = (modify_gift_goal_input, goal) => {
+const render_modify_gift_modal = (modify_gift_goal_input, modify_gift_reward_input, goal, reward) => {
     modify_gift_goal_input.value = goal
+    modify_gift_reward_input.value = reward
 }
 
 // 渲染礼物列表
@@ -177,20 +197,23 @@ const render_tbody = (tbody, table_option) => {
             tbody.removeChild(tbody.firstChild)
     }
     const get_table_tr = (item) => {
-        // item = {gift_name: '辣条', value: [0, 1000]}
+        // item = {gift_name: '辣条', value: [0, 1000, '心跳']}
         let tr = document.createElement('tr')
         let td_gift_name = document.createElement('td')
         let td_value = document.createElement('td')
+        let td_reward = document.createElement('td')
         let td_action = document.createElement('td')
 
         td_gift_name.innerText = item.gift_name
         td_value.innerText = `${item.value[0]} / ${item.value[1]}`
+        td_reward.innerText = item.value[2]
         td_action.innerHTML = `
             <button onClick="modify_gift_handler('${item.gift_name}')" type="button" class="btn btn-primary btn-xs">修改</button>
             <button onClick="clear_count('${item.gift_name}')" type="button" class="btn btn-primary btn-xs">清空</button>
         `
         tr.appendChild(td_gift_name)
         tr.appendChild(td_value)
+        tr.appendChild(td_reward)
         tr.appendChild(td_action)
         return tr
     }
@@ -244,7 +267,7 @@ const render_all = () => {
     render_start_action_btn(state.node.start_action_btn, state.run_status)
     render_new_gift_dropdown_menu(state.node.new_gift_dropdown_menu_btn, state.node.new_gift_dropdown_menu_ul,
         state.gift_list, state.table_option, state.new_gift)
-    render_modify_gift_modal(state.node.modify_gift_goal_input, state.modify_gift.goal)
+    render_modify_gift_modal(state.node.modify_gift_goal_input, state.node.modify_gift_reward_input, state.modify_gift.goal, state.modify_gift.reward)
     render_start_action_modal(state.node.start_action_input, state.room_id)
 }
 
