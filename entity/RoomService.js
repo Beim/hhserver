@@ -9,10 +9,14 @@ class RoomService {
             rid: 92052 // 直播间id
         }
     */
-    constructor(config) {
+    constructor() {
+        this.rs = null
+        this._disconnected()
+    }
+
+    init_room(config) {
         this.rs = new Room({url: config.rid})
-        this.rs.connect()
-        this._connected()
+        this._disconnected()
         this._set_rs_handler()
     }
 

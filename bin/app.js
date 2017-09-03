@@ -10,7 +10,7 @@ const CONFIG = require('../conf/global_conf')
 
 const app = new Koa()
 const forums = new Router()
-const rs = new RoomService({rid: CONFIG['room_id']}) // room service
+const rs = new RoomService() // room service
 
 app.use(async (ctx, next) => {
     ctx.room_service = rs

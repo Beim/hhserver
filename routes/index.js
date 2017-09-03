@@ -19,8 +19,9 @@ router.get('/stop', async (ctx, next) => {
     await next()
 })
 
-router.get('/start', async (ctx, next) => {
+router.get('/start/:room_id', async (ctx, next) => {
     if (!ctx.room_service.is_connected()) {
+        ctx.room_service.init_room({rid: ctx.params.room_id})
         ctx.room_service.connect()
         starttime.start()
     }
