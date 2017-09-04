@@ -6,11 +6,13 @@ if (!fs.existsSync(path.join(__dirname, '../db')))
     fs.mkdirSync(path.join(__dirname, '../db'))
 const Router = require('koa-router')
 const RoomService = require('../entity/RoomService')
+const UpdateGiftService = require('../entity/UpdateGiftService')
 const CONFIG = require('../conf/global_conf')
 
 const app = new Koa()
 const forums = new Router()
 const rs = new RoomService() // room service
+const ugs = new UpdateGiftService()
 
 app.use(async (ctx, next) => {
     ctx.room_service = rs
