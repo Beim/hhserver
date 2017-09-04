@@ -1,0 +1,12 @@
+.gift-item {
+    margin: 10px;
+    
+}
+
+.hua-text {
+    font-size: 200%;
+    font-family: "Microsoft YaHei" ! important;  
+    color:  #4db8ff;
+    font-weight:900;
+    text-shadow:#00f 2px 0 3px,#00f 0 2px 3px,#00f -2px 0 3px,#00f 0 -2px 3px;   
+}
