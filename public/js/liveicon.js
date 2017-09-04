@@ -1,5 +1,6 @@
 state = {
     gift_option: {},
+    gift_icon: {},
     node: {
         text_wrapper: null,
     }
@@ -7,6 +8,7 @@ state = {
 
 const init_state = async () => {
     state['gift_option'] = await get('/api/get')
+    state['gift_icon'] = await get('/api/get/iconid')
 
     state.node.text_wrapper = document.getElementById('text-wrapper')
     
@@ -25,7 +27,7 @@ const init_state = async () => {
 const render_text = () => {
     const get_gift_item = (gift_name, gift_count, gift_goal, award) => {
         let span = `
-            <span>${gift_name}</span>
+            <img src="https://static.hdslb.com/live-static/live-room/images/gift-section/gift-${state['gift_icon'][gift_name]}.png"  alt="${gift_name}" />
             <span>${gift_count}/${gift_goal}</span>
             <span>${award}</span>
         `
@@ -38,6 +40,7 @@ const render_text = () => {
         `  
     }
     let text = ''
+    console.log(111)
     for (let gift_name in state['gift_option']) {
         let value = state['gift_option'][gift_name]
         text += get_gift_item(gift_name, parseInt(value[0]), parseInt(value[1]), value[2])

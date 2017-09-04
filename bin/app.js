@@ -16,6 +16,7 @@ const ugs = new UpdateGiftService()
 
 app.use(async (ctx, next) => {
     ctx.room_service = rs
+    ctx.update_gift_service = ugs
     await next()
 })
 

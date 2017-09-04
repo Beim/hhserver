@@ -23,4 +23,10 @@ router.get('/del/giftlist/:gift_name', async (ctx, next) => {
     await next()
 })
 
+// 获取礼物对应icon id 数据
+router.get('/get/iconid', async (ctx, next) => {
+    ctx.body = ctx.update_gift_service.get_icon_id()
+    await next()
+})
+
 module.exports = router
