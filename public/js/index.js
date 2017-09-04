@@ -179,6 +179,11 @@ const submit_start_action_handler = async () => {
     refresh()
 }
 
+// 跳转到展示页面
+const show_page_handler = () => {
+    window.open('/liveicon.html')
+}
+
 // 渲染开始运行的模态框
 const render_start_action_modal = (start_action_input, room_id) => {
     start_action_input.value = room_id
