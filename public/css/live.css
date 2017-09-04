@@ -5,9 +5,9 @@
 
 .hua-text {
     padding: 40px;
-    font-size: 200%;
+    font-size: 300%;
     font-family: "Microsoft YaHei" ! important;  
     color:  #4db8ff;
     font-weight:900;
-    text-shadow:#00f 2px 0 3px,#00f 0 2px 3px,#00f -2px 0 3px,#00f 0 -2px 3px;   
+    text-shadow:#00f 3px 0 4px,#00f 0 3px 4px,#00f -3px 0 4px,#00f 0 -3px 4px;   
 }
