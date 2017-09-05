@@ -26,19 +26,35 @@ const init_state = async () => {
 
 const render_text = () => {
     const get_gift_item = (gift_name, gift_count, gift_goal, award) => {
+        // let span = `
+        //     <img src="https://static.hdslb.com/live-static/live-room/images/gift-section/gift-${state['gift_icon'][gift_name]}.png"  alt="${gift_name}" />
+        //     <!--span>${gift_name}</span-->
+        //     <span>${gift_count}/${gift_goal}</span>
+        //     <span>${award}</span>
+        // `
+        // if (gift_count >= gift_goal)
+        //     span += `<span>[已达成]</span>`
         let span = `
             <img src="https://static.hdslb.com/live-static/live-room/images/gift-section/gift-${state['gift_icon'][gift_name]}.png"  alt="${gift_name}" />
             <!--span>${gift_name}</span-->
-            <span>${gift_count}/${gift_goal}</span>
-            <span>${award}</span>
         `
-        if (gift_count >= gift_goal)
-            span += `<span>[已达成]</span>`
+        if (gift_count >= gift_goal) {
+            span += `
+                <span class="heartbeat">${gift_count}/${gift_goal}</span>    
+                <span class="heartbeat">${award}</span>
+            `
+        }
+        else {
+            span += `
+                <span>${gift_count}/${gift_goal}</span>    
+                <span>${award}</span>
+            `
+        }
         return `
             <div>
                 ${span}
             </div>
-        `  
+        `
     }
     let text = ''
     console.log(111)
