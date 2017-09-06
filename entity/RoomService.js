@@ -18,6 +18,7 @@ class RoomService {
         this.rs = new Room({url: config.rid})
         this._disconnected()
         this._set_rs_handler()
+        
     }
 
     is_connected() {
@@ -33,7 +34,6 @@ class RoomService {
         this.rs.disconnect()
         this._disconnected()
     }
-
     
     // 设置rs(room service) 的handler
     _set_rs_handler() {

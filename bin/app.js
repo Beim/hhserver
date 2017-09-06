@@ -14,9 +14,17 @@ const forums = new Router()
 const rs = new RoomService() // room service
 const ugs = new UpdateGiftService()
 
+let recent_visit_time = new Date().getTime()
+setInterval(() => {
+    if (rs.is_connected() && new Date().getTime() - recent_visit_time > CONFIG['idle_time']) {
+        rs.disconnect()
+    }
+}, 1000 * 60 * 10)
+
 app.use(async (ctx, next) => {
     ctx.room_service = rs
     ctx.update_gift_service = ugs
+    recent_visit_time = new Date().getTime()
     await next()
 })
 
